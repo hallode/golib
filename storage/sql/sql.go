@@ -1,3 +1,6 @@
+// Package sql manages a PostgreSQL connection pool built on pgx/v5. New parses a
+// DSN (pgx URL or keyword form), applies pool settings, connects and pings; run
+// queries through the exposed Pool. It handles lifecycle only — no query helpers.
 package sql
 
 import (

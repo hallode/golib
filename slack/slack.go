@@ -1,3 +1,6 @@
+// Package slack posts messages to a Slack incoming webhook and provides an async
+// AlertWorker that formats, rate-limits, and aggregates error alerts. Build
+// alerts with the fluent BuildAlert(...).Send(ctx); a webhook URL is required.
 package slack
 
 import (

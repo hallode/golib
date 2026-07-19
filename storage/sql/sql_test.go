@@ -101,8 +101,8 @@ func TestNew_InvalidDSN(t *testing.T) {
 
 func TestNew_ConnectionFailure(t *testing.T) {
 	_, err := New(&Options{
-		DSN:             "postgres://postgres:postgres@127.0.0.1:1/app?connect_timeout=1",
-		ConnectTimeout:  2 * time.Second,
+		DSN:            "postgres://postgres:postgres@127.0.0.1:1/app?connect_timeout=1",
+		ConnectTimeout: 2 * time.Second,
 	})
 	if err == nil {
 		t.Fatal("expected connection error")

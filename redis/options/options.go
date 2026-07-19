@@ -1,3 +1,6 @@
+// Package options holds the per-call functional options consumed by golib/redis
+// methods — TTL, TTL jitter, and value serialization (JSON or MessagePack) —
+// plus TTL-class constants and HighTrafficOpts for cache-stampede protection.
 package options
 
 import (

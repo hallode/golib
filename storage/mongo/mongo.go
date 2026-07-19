@@ -1,3 +1,6 @@
+// Package mongo manages a MongoDB connection on mongo-driver/v2. New connects and
+// pings; use the exposed DB for collection operations and Client() for
+// transactions. EnableOpenTelemetry requires a global OTel provider (golib/otel).
 package mongo
 
 import (

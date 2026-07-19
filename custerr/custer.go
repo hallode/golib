@@ -1,3 +1,7 @@
+// Package custerr provides structured, HTTP-status-aware application errors:
+// Wrap/Wrapf capture the call site, Custer carries an HTTP status plus optional
+// business code, and NonRetryableError marks errors that retry loops should skip.
+// Call SetAppModule once at startup to shorten captured source paths (optional).
 package custerr
 
 import (
