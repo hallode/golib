@@ -8,6 +8,11 @@ go get github.com/hallode/golib
 
 **Requirements:** Go 1.26+
 
+> **Free & open-source** — golib is released under the [MIT](LICENSE) license.
+> Use it in anything, including commercial and closed-source projects, no strings
+> attached. If it helps your work, please ⭐ [star the repo](https://github.com/hallode/golib)
+> so others can find it.
+
 ## Packages
 
 | Package | Import path | Description |
@@ -23,6 +28,7 @@ go get github.com/hallode/golib
 | Excel | `github.com/hallode/golib/excel` | excelize streaming export helpers |
 | Prometheus | `github.com/hallode/golib/fprom` | Fiber v3 HTTP metrics middleware |
 | Email | `github.com/hallode/golib/email` | SMTP client (text/HTML, attachments) |
+| Cursor | `github.com/hallode/golib/cursor` | Storage-agnostic cursor (keyset) pagination |
 | PostgreSQL | `github.com/hallode/golib/storage/sql` | pgx/v5 connection pool |
 | MongoDB | `github.com/hallode/golib/storage/mongo` | mongo-driver v2; optional OTel via `EnableOpenTelemetry` |
 
@@ -43,9 +49,10 @@ func main() {
         ServiceName:   "my-service",
         EnableTraceID: true,
     })
-    otel.NewTracer(otel.TracerConfig{
-        Name:   "my-service",
-        Tracer: "otlp",
+    otel.NewTracer(&otel.TracerConfig{
+        Name:         "my-service",
+        Tracer:       "otlp",
+        OtelEndpoint: "http://localhost:4318", // OTLP HTTP, not gRPC :4317
     })
     json.Init("sonic")
     custerr.SetAppModule("my-service/")
@@ -146,6 +153,29 @@ return custerr.NotFoundf("order %s not found", id)
 return custerr.BadRequest(err).WithCode(myBusinessCode)
 ```
 
+### Cursor pagination
+
+Storage-agnostic keyset pagination. Your row type implements `Cursor()`, you
+over-fetch `Limit+1` rows, and `GetPagination` trims the page and builds the
+opaque next/prev cursors. See the [package example](https://pkg.go.dev/github.com/hallode/golib/cursor#example-GetPagination)
+for a full backend (including the ORDER-BY flip on backward scans).
+
+```go
+import "github.com/hallode/golib/cursor"
+
+type User struct{ ID int64 }
+func (u User) Cursor() any { return u.ID }
+
+// rows was fetched with Limit+1 in the scan direction decoded from the request.
+page := cursor.GetPagination(cursor.PaginationRequest[User]{
+    Cursor: req.Cursor,
+    Limit:  req.Limit,
+    Next:   req.Next,
+    Data:   rows,
+})
+// page.Data, page.Next, page.Prev
+```
+
 ## Development
 
 ```bash
@@ -158,7 +188,7 @@ go mod tidy
 
 ### Test coverage
 
-Unit tests exist for most packages. Redis tests use [miniredis](https://github.com/alicebob/miniredis); mongo and SQL tests cover config validation and connection errors without requiring live databases.
+Every package has unit tests, and each ships runnable [Go examples](https://go.dev/blog/examples) visible on pkg.go.dev. Redis tests use [miniredis](https://github.com/alicebob/miniredis); mongo and SQL tests cover config validation and connection errors without requiring live databases.
 
 ## Optional integrations
 
@@ -189,4 +219,4 @@ Some features are disabled by default and enabled through config:
 
 ## License
 
-See [LICENSE](LICENSE).
+[MIT](LICENSE) — free for personal and commercial use.
