@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hallode/golib/otel"
+	"github.com/hallode/golib/v2/otel"
 )
 
 func ExampleNewTracer() {

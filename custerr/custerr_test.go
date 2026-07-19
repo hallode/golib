@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hallode/golib/custerr"
+	"github.com/hallode/golib/v2/custerr"
 )
 
 func TestWrap_Nil(t *testing.T) {

@@ -3,7 +3,7 @@ package fprom_test
 import (
 	"github.com/gofiber/fiber/v3"
 
-	"github.com/hallode/golib/fprom"
+	"github.com/hallode/golib/v2/fprom"
 )
 
 func ExampleNew() {

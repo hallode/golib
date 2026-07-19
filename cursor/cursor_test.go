@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hallode/golib/cursor"
+	"github.com/hallode/golib/v2/cursor"
 )
 
 type row struct{ id int }

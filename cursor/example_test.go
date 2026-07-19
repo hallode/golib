@@ -3,7 +3,7 @@ package cursor_test
 import (
 	"fmt"
 
-	"github.com/hallode/golib/cursor"
+	"github.com/hallode/golib/v2/cursor"
 )
 
 // Item is a row type from a repository, ordered by ID. Implementing CurPage

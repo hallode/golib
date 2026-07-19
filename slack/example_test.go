@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hallode/golib/slack"
+	"github.com/hallode/golib/v2/slack"
 )
 
 func ExampleBuildAlert() {

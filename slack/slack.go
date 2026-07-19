@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/hallode/golib/json"
+	"github.com/hallode/golib/v2/json"
 
 	"github.com/pkg/errors"
 )

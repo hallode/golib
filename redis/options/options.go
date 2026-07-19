@@ -4,7 +4,7 @@
 package options
 
 import (
-	"github.com/hallode/golib/json"
+	"github.com/hallode/golib/v2/json"
 	"math/rand"
 	"time"
 

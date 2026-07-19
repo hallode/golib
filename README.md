@@ -3,7 +3,7 @@
 A Go library of infrastructure building blocks — storage, observability, structured errors, validation, and service integrations. Designed as a reusable module for microservices and backend applications.
 
 ```bash
-go get github.com/hallode/golib
+go get github.com/hallode/golib/v2
 ```
 
 **Requirements:** Go 1.26+
@@ -17,20 +17,20 @@ go get github.com/hallode/golib
 
 | Package | Import path | Description |
 |---------|-------------|-------------|
-| Errors | `github.com/hallode/golib/custerr` | Wrap with source, HTTP-status errors, non-retryable marker, business codes |
-| JSON | `github.com/hallode/golib/json` | Pluggable JSON codec (stdlib or Sonic) |
-| Log | `github.com/hallode/golib/log` | Structured zap logger; optional trace ID; secret redaction via `Sanitize` |
-| Circuit breaker | `github.com/hallode/golib/circuitbreaker` | gobreaker wrapper with non-transient errors |
-| Redis | `github.com/hallode/golib/redis` | go-redis v9; optional OTel via `EnableOpenTelemetry`; options in `redis/options` |
-| OTel | `github.com/hallode/golib/otel` | Tracer provider (OTLP, stdout, no-op) |
-| Validator | `github.com/hallode/golib/validator` | validator/v10 + custom rules (EN/ID), Fiber hook |
-| Slack | `github.com/hallode/golib/slack` | Webhook client and async alert worker |
-| Excel | `github.com/hallode/golib/excel` | excelize streaming export helpers |
-| Prometheus | `github.com/hallode/golib/fprom` | Fiber v3 HTTP metrics middleware |
-| Email | `github.com/hallode/golib/email` | SMTP client (text/HTML, attachments) |
-| Cursor | `github.com/hallode/golib/cursor` | Storage-agnostic cursor (keyset) pagination |
-| PostgreSQL | `github.com/hallode/golib/storage/sql` | pgx/v5 connection pool |
-| MongoDB | `github.com/hallode/golib/storage/mongo` | mongo-driver v2; optional OTel via `EnableOpenTelemetry` |
+| Errors | `github.com/hallode/golib/v2/custerr` | Wrap with source, HTTP-status errors, non-retryable marker, business codes |
+| JSON | `github.com/hallode/golib/v2/json` | Pluggable JSON codec (stdlib or Sonic) |
+| Log | `github.com/hallode/golib/v2/log` | Structured zap logger; optional trace ID; secret redaction via `Sanitize` |
+| Circuit breaker | `github.com/hallode/golib/v2/circuitbreaker` | gobreaker wrapper with non-transient errors |
+| Redis | `github.com/hallode/golib/v2/redis` | go-redis v9; optional OTel via `EnableOpenTelemetry`; options in `redis/options` |
+| OTel | `github.com/hallode/golib/v2/otel` | Tracer provider (OTLP, stdout, no-op) |
+| Validator | `github.com/hallode/golib/v2/validator` | validator/v10 + custom rules (EN/ID), Fiber hook |
+| Slack | `github.com/hallode/golib/v2/slack` | Webhook client and async alert worker |
+| Excel | `github.com/hallode/golib/v2/excel` | excelize streaming export helpers |
+| Prometheus | `github.com/hallode/golib/v2/fprom` | Fiber v3 HTTP metrics middleware |
+| Email | `github.com/hallode/golib/v2/email` | SMTP client (text/HTML, attachments) |
+| Cursor | `github.com/hallode/golib/v2/cursor` | Storage-agnostic cursor (keyset) pagination |
+| PostgreSQL | `github.com/hallode/golib/v2/storage/sql` | pgx/v5 connection pool |
+| MongoDB | `github.com/hallode/golib/v2/storage/mongo` | mongo-driver v2; optional OTel via `EnableOpenTelemetry` |
 
 ## Quick start
 
@@ -38,10 +38,10 @@ go get github.com/hallode/golib
 
 ```go
 import (
-    "github.com/hallode/golib/custerr"
-    "github.com/hallode/golib/json"
-    "github.com/hallode/golib/log"
-    "github.com/hallode/golib/otel"
+    "github.com/hallode/golib/v2/custerr"
+    "github.com/hallode/golib/v2/json"
+    "github.com/hallode/golib/v2/log"
+    "github.com/hallode/golib/v2/otel"
 )
 
 func main() {
@@ -70,7 +70,7 @@ See [Optional integrations](#optional-integrations) for flags that default to of
 ### PostgreSQL (pgx)
 
 ```go
-import "github.com/hallode/golib/storage/sql"
+import "github.com/hallode/golib/v2/storage/sql"
 
 db, err := sql.New(&sql.Options{
     DSN: os.Getenv("DATABASE_URL"),
@@ -87,7 +87,7 @@ err = db.Pool.QueryRow(ctx, "SELECT id FROM users WHERE email = $1", email).Scan
 ### MongoDB
 
 ```go
-import "github.com/hallode/golib/storage/mongo"
+import "github.com/hallode/golib/v2/storage/mongo"
 
 m, err := mongo.New(&mongo.Options{
     URI:                 os.Getenv("MONGO_URI"),
@@ -107,8 +107,8 @@ coll := m.DB.Collection("orders")
 
 ```go
 import (
-    "github.com/hallode/golib/redis"
-    "github.com/hallode/golib/redis/options"
+    "github.com/hallode/golib/v2/redis"
+    "github.com/hallode/golib/v2/redis/options"
 )
 
 r, err := redis.NewRedis(redis.RedisOption{
@@ -125,7 +125,7 @@ err = r.Get(ctx, "key", &result, options.WithMsgPack())
 ### Email
 
 ```go
-import "github.com/hallode/golib/email"
+import "github.com/hallode/golib/v2/email"
 
 client, err := email.New(email.Config{
     Host:     "smtp.example.com",
@@ -147,7 +147,7 @@ err = client.SendContext(ctx,
 ### HTTP errors
 
 ```go
-import "github.com/hallode/golib/custerr"
+import "github.com/hallode/golib/v2/custerr"
 
 return custerr.NotFoundf("order %s not found", id)
 return custerr.BadRequest(err).WithCode(myBusinessCode)
@@ -157,11 +157,11 @@ return custerr.BadRequest(err).WithCode(myBusinessCode)
 
 Storage-agnostic keyset pagination. Your row type implements `Cursor()`, you
 over-fetch `Limit+1` rows, and `GetPagination` trims the page and builds the
-opaque next/prev cursors. See the [package example](https://pkg.go.dev/github.com/hallode/golib/cursor#example-GetPagination)
+opaque next/prev cursors. See the [package example](https://pkg.go.dev/github.com/hallode/golib/v2/cursor#example-GetPagination)
 for a full backend (including the ORDER-BY flip on backward scans).
 
 ```go
-import "github.com/hallode/golib/cursor"
+import "github.com/hallode/golib/v2/cursor"
 
 type User struct{ ID int64 }
 func (u User) Cursor() any { return u.ID }

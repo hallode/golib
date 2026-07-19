@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hallode/golib/circuitbreaker"
+	"github.com/hallode/golib/v2/circuitbreaker"
 )
 
 func ExampleExecute() {

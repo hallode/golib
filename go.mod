@@ -1,4 +1,4 @@
-module github.com/hallode/golib
+module github.com/hallode/golib/v2
 
 go 1.26
 

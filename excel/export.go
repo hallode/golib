@@ -3,7 +3,7 @@ package excel
 import (
 	"fmt"
 
-	"github.com/hallode/golib/json"
+	"github.com/hallode/golib/v2/json"
 
 	"github.com/xuri/excelize/v2"
 )

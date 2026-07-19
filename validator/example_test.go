@@ -3,7 +3,7 @@ package validator_test
 import (
 	"fmt"
 
-	"github.com/hallode/golib/validator"
+	"github.com/hallode/golib/v2/validator"
 )
 
 // Build a structured validation error by hand — useful for business-rule

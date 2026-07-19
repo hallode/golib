@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hallode/golib/storage/sql"
+	"github.com/hallode/golib/v2/storage/sql"
 )
 
 func ExampleNew() {

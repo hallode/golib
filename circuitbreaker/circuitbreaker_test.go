@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/hallode/golib/circuitbreaker"
+	"github.com/hallode/golib/v2/circuitbreaker"
 )
 
 func TestNonTransientError_DoesNotTripBreaker(t *testing.T) {

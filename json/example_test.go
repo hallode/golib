@@ -3,7 +3,7 @@ package json_test
 import (
 	"fmt"
 
-	"github.com/hallode/golib/json"
+	"github.com/hallode/golib/v2/json"
 )
 
 // Call json.Init("sonic") once at startup to switch the backend to

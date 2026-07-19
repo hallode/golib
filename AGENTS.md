@@ -6,7 +6,7 @@ Instructions for AI coding agents (Cursor, Claude Code, etc.) working in **golib
 
 | | |
 |---|---|
-| Module | `github.com/hallode/golib` |
+| Module | `github.com/hallode/golib/v2` |
 | Type | Go library (no `main` package) |
 | Go | 1.26+ |
 | Remote | `git@github.com:hallode/golib.git` |

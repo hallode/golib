@@ -3,7 +3,7 @@ package custerr_test
 import (
 	"fmt"
 
-	"github.com/hallode/golib/custerr"
+	"github.com/hallode/golib/v2/custerr"
 )
 
 func ExampleNotFoundf() {
