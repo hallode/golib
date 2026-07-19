@@ -1,3 +1,7 @@
+// Package email is a fluent SMTP client over gomail. New(Config) returns a
+// reusable Client (create one per service); build messages with the chained
+// Message API — To/Subject/Text/HTML/AttachFile — and send via Send or
+// SendContext. Port 465 enables implicit TLS automatically.
 package email
 
 import (
@@ -72,6 +76,8 @@ func New(cfg Config) (*Client, error) {
 	}
 	if cfg.UseSSL != nil {
 		dialer.SSL = *cfg.UseSSL
+	} else if port == 465 {
+		dialer.SSL = true
 	}
 
 	from := cfg.From

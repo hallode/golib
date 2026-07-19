@@ -261,8 +261,8 @@ func TestHMSetAndHMGetPipelined(t *testing.T) {
 	}
 
 	raw, err := r.HMGetPipelined(ctx, map[string]string{
-		"hash:a": "field1",
-		"hash:b": "field2",
+		"hash:a":  "field1",
+		"hash:b":  "field2",
 		"missing": "field",
 	})
 	if err != nil {

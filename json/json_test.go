@@ -9,12 +9,12 @@ import (
 )
 
 type sampleStruct struct {
-	Name    string  `json:"name"`
-	Age     int     `json:"age"`
-	Score   float64 `json:"score,omitempty"`
-	Active  bool    `json:"active"`
+	Name    string   `json:"name"`
+	Age     int      `json:"age"`
+	Score   float64  `json:"score,omitempty"`
+	Active  bool     `json:"active"`
 	Tags    []string `json:"tags,omitempty"`
-	Ignored string  `json:"-"`
+	Ignored string   `json:"-"`
 }
 
 var codecs = []struct {
@@ -187,4 +187,3 @@ func TestRawMessage(t *testing.T) {
 		})
 	}
 }
-

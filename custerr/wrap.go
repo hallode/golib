@@ -6,10 +6,11 @@ import (
 	"strings"
 )
 
-var appModule = "github.com/hallode/golib/"
+var appModule = ""
 
-// SetAppModule sets the module path prefix stripped from captured source paths (e.g. "my-service/").
-// Call once at startup.
+// SetAppModule sets the module path prefix stripped from captured source paths
+// (e.g. "my-service/"), shortening them to a module-relative form. Optional;
+// when unset, captured sources keep their raw absolute path. Call once at startup.
 func SetAppModule(module string) {
 	if module != "" && !strings.HasSuffix(module, "/") {
 		module += "/"
@@ -81,20 +82,24 @@ func captureSource(skip int) string {
 		return ""
 	}
 
-	relFile := file
-	if _, after, ok0 := strings.Cut(file, appModule); ok0 {
-		relFile = after
+	// With an app module set, shorten the path to a module-relative form
+	// ("/my-service/internal/foo.go"). Without one — or when the file is not
+	// under the module — keep the raw path rather than fabricating a prefix.
+	path := file
+	if appModule != "" {
+		if _, after, found := strings.Cut(file, appModule); found {
+			path = "/" + strings.TrimSuffix(appModule, "/") + "/" + after
+		}
 	}
-	fullPath := "/" + strings.TrimSuffix(appModule, "/") + "/" + relFile
 
-	src := fmt.Sprintf("%s:%d", fullPath, line)
+	src := fmt.Sprintf("%s:%d", path, line)
 	if fn := runtime.FuncForPC(pc); fn != nil {
 		fullName := fn.Name()
 		qualifiedFunc := fullName
 		if i := strings.LastIndex(fullName, "/"); i >= 0 {
 			qualifiedFunc = fullName[i+1:]
 		}
-		src = fmt.Sprintf("%s:%d (%s)", fullPath, line, qualifiedFunc)
+		src = fmt.Sprintf("%s:%d (%s)", path, line, qualifiedFunc)
 	}
 
 	return src

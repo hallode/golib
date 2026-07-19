@@ -3,7 +3,6 @@ package circuitbreaker_test
 import (
 	"context"
 	"errors"
-	"strings"
 	"testing"
 
 	"github.com/hallode/golib/circuitbreaker"
@@ -53,8 +52,8 @@ func TestTransientError_OpensBreaker(t *testing.T) {
 	_, err := circuitbreaker.Execute(cb, context.Background(), func() (string, error) {
 		return "ok", nil
 	})
-	if err == nil || !strings.Contains(err.Error(), "temporarily unavailable") {
-		t.Fatalf("expected open breaker error, got %v", err)
+	if !errors.Is(err, circuitbreaker.ErrCircuitOpen) {
+		t.Fatalf("expected ErrCircuitOpen, got %v", err)
 	}
 }
 

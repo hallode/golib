@@ -1,14 +1,25 @@
+// Package circuitbreaker wraps sony/gobreaker with a generic Execute[T] and
+// business-error exclusion: wrap validation/business errors in
+// NewNonTransientError so they do not trip the breaker. When the breaker is open
+// Execute returns ErrCircuitOpen. Optional state-change logging via
+// Config.EnableLogging requires golib/log to be initialized first.
 package circuitbreaker
 
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/hallode/golib/log"
 
 	"github.com/sony/gobreaker"
 )
+
+// ErrCircuitOpen is returned by Execute when the breaker is open (or half-open
+// and rejecting requests) and the guarded function was not called. Match it with
+// errors.Is(err, ErrCircuitOpen).
+var ErrCircuitOpen = errors.New("service temporarily unavailable: circuit breaker is open")
 
 // NonTransientError marks business/validation errors that must not trip the circuit breaker.
 type NonTransientError struct {
@@ -23,12 +34,13 @@ func NewNonTransientError(err error) error {
 }
 
 type Config struct {
-	Name             string
+	Name string
+	// MaxRequests is the number of probe requests allowed while half-open; the
+	// breaker closes once they all succeed. It governs half-open recovery.
 	MaxRequests      uint32
 	Interval         time.Duration
 	Timeout          time.Duration
 	FailureThreshold uint32
-	SuccessThreshold uint32
 
 	// EnableLogging emits state-change and open-breaker messages via golib/log.
 	// Default is false; requires log.New when enabled.
@@ -77,7 +89,6 @@ func NewDefaultCircuitBreaker(name string) *CircuitBreaker {
 		Interval:         60 * time.Second,
 		Timeout:          10 * time.Second,
 		FailureThreshold: 5,
-		SuccessThreshold: 2,
 	})
 }
 
@@ -93,7 +104,7 @@ func Execute[T any](cb *CircuitBreaker, ctx context.Context, fn func() (T, error
 			if cb.enableLogging {
 				log.With(ctx).WithParam("error", err).Warnf("Circuit breaker %s is open", cb.cb.Name())
 			}
-			return zero, errors.New("service temporarily unavailable: circuit breaker is open")
+			return zero, fmt.Errorf("circuitbreaker %q: %w", cb.cb.Name(), ErrCircuitOpen)
 		}
 		return zero, err
 	}
