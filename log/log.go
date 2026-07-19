@@ -1,3 +1,8 @@
+// Package log is a zap-based structured logger exposed as a global singleton.
+// Call New or NewWithConfig once at startup before using the package-level
+// helpers (otherwise they no-op). NewWithConfig with EnableTraceID injects the
+// OpenTelemetry trace_id (pairs with golib/otel); Sanitize redacts secrets from
+// logged values.
 package log
 
 import (
@@ -113,7 +118,7 @@ func IsDebug() bool {
 	return atomicLevel.Level() <= zapcore.DebugLevel
 }
 
-// New initializes the global logger. Console encoder for debug/info, JSON for warn+.
+// New initializes the global logger with JSON (production) encoding at info level.
 func New(serviceName string) Logger {
 	return NewWithConfig(Config{ServiceName: serviceName})
 }
@@ -139,7 +144,9 @@ func NewWithConfig(cfg Config) Logger {
 	return logStore
 }
 
-// SetLevel sets the logger level and rebuilds the encoder (console for debug/info, JSON for warn+).
+// SetLevel changes the global logger's minimum level at runtime.
+// Accepted values: debug, info, warn (or warning), error, fatal, panic;
+// anything else falls back to info.
 func SetLevel(level string) {
 	var l zapcore.Level
 	switch level {

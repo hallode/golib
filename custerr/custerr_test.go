@@ -127,16 +127,33 @@ func TestNonRetryable(t *testing.T) {
 }
 
 func TestSetAppModule(t *testing.T) {
-	t.Cleanup(func() { custerr.SetAppModule("github.com/hallode/golib/") })
+	t.Cleanup(func() { custerr.SetAppModule("") })
 
-	custerr.SetAppModule("my-service/")
+	// The package directory "custerr/" is always part of this file's path
+	// (independent of checkout location), so it is stripped to a
+	// module-relative form: "/custerr/custerr_test.go:NN".
+	custerr.SetAppModule("custerr/")
 	err := custerr.Wrap(errors.New("x"))
 
 	var sourcer custerr.Sourcer
 	if !errors.As(err, &sourcer) {
 		t.Fatal("expected Sourcer")
 	}
-	if !strings.Contains(sourcer.Source(), "/my-service/") {
-		t.Fatalf("source %q should use custom module prefix", sourcer.Source())
+	if !strings.HasPrefix(sourcer.Source(), "/custerr/") {
+		t.Fatalf("source %q should be rewritten to a module-relative path", sourcer.Source())
+	}
+}
+
+func TestSetAppModule_DefaultKeepsRawPath(t *testing.T) {
+	// With no app module set (the default), the captured source keeps its raw
+	// absolute path rather than a fabricated prefix.
+	err := custerr.Wrap(errors.New("x"))
+
+	var sourcer custerr.Sourcer
+	if !errors.As(err, &sourcer) {
+		t.Fatal("expected Sourcer")
+	}
+	if !strings.HasPrefix(sourcer.Source(), "/") || strings.HasPrefix(sourcer.Source(), "//") {
+		t.Fatalf("source %q should be a clean raw absolute path", sourcer.Source())
 	}
 }
