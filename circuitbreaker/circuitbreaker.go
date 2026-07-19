@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hallode/golib/log"
+	"github.com/hallode/golib/v2/log"
 
 	"github.com/sony/gobreaker"
 )

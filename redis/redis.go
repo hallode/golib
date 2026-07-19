@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/hallode/golib/redis/options"
+	"github.com/hallode/golib/v2/redis/options"
 
 	"github.com/redis/go-redis/extra/redisotel/v9"
 	"github.com/redis/go-redis/v9"

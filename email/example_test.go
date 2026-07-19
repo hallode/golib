@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hallode/golib/email"
+	"github.com/hallode/golib/v2/email"
 )
 
 func ExampleClient_SendContext() {

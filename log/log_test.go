@@ -6,7 +6,7 @@ import (
 
 	"context"
 
-	customlog "github.com/hallode/golib/log"
+	customlog "github.com/hallode/golib/v2/log"
 )
 
 func TestSanitize_RedactsSensitiveFields(t *testing.T) {

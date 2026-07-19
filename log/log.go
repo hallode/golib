@@ -11,8 +11,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/hallode/golib/custerr"
-	"github.com/hallode/golib/json"
+	"github.com/hallode/golib/v2/custerr"
+	"github.com/hallode/golib/v2/json"
 
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hallode/golib/redis"
-	"github.com/hallode/golib/redis/options"
+	"github.com/hallode/golib/v2/redis"
+	"github.com/hallode/golib/v2/redis/options"
 )
 
 func ExampleNewRedis() {

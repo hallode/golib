@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/alicebob/miniredis/v2"
-	goredis "github.com/hallode/golib/redis"
-	"github.com/hallode/golib/redis/options"
+	goredis "github.com/hallode/golib/v2/redis"
+	"github.com/hallode/golib/v2/redis/options"
 )
 
 type cacheItem struct {

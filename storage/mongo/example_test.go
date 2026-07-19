@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hallode/golib/storage/mongo"
+	"github.com/hallode/golib/v2/storage/mongo"
 )
 
 func ExampleNew() {

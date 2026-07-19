@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hallode/golib/redis/options"
+	"github.com/hallode/golib/v2/redis/options"
 )
 
 // Options are normally passed to golib/redis methods (Get, Set, …). Here one is

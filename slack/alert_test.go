@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hallode/golib/custerr"
+	"github.com/hallode/golib/v2/custerr"
 )
 
 func TestHasMeaningfulContent(t *testing.T) {

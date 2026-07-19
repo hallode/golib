@@ -3,7 +3,7 @@ package log_test
 import (
 	"fmt"
 
-	"github.com/hallode/golib/log"
+	"github.com/hallode/golib/v2/log"
 )
 
 // Sanitize redacts secret-looking values before they reach a log sink.

@@ -5,7 +5,7 @@ import (
 	"sync"
 	"testing"
 
-	customjson "github.com/hallode/golib/json"
+	customjson "github.com/hallode/golib/v2/json"
 )
 
 type sampleStruct struct {

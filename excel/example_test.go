@@ -3,7 +3,7 @@ package excel_test
 import (
 	"fmt"
 
-	"github.com/hallode/golib/excel"
+	"github.com/hallode/golib/v2/excel"
 )
 
 func ExampleGenerateExcel() {
