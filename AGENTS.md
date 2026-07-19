@@ -15,16 +15,8 @@ Instructions for AI coding agents (Cursor, Claude Code, etc.) working in **golib
 
 ## Before exploring code
 
-This repo may have a **code-review-graph** MCP server. Prefer graph tools over blind Grep/Glob when available:
-
-| Tool | Use when |
-|------|----------|
-| `detect_changes` | Reviewing diffs |
-| `get_impact_radius` | Blast radius of a change |
-| `query_graph` | Callers, callees, tests |
-| `semantic_search_nodes` | Find symbols by name |
-
-Fall back to Grep/Read when the graph does not cover the question.
+If your setup provides a code-graph / code-indexing MCP tool, prefer it over blind
+Grep/Glob for tracing callers, dependents, and test coverage; otherwise use Grep/Read.
 
 ## Commands (run before claiming done)
 
@@ -98,3 +90,9 @@ When multiple packages are used together:
 - No `main` package — library only.
 - Update `README.md` and this file if the package is user-facing.
 - Add `_test.go` for non-trivial logic.
+- Add a `// Package …` doc comment and an `example_test.go` — both render on pkg.go.dev.
+
+## Known constraints
+
+- **`otelmongo` v2** — pinned to a contrib pseudo-version until a stable tag is published.
+- **`vendor/`** — gitignored. On vendoring errors: `rm -rf vendor && go mod tidy`.
